@@ -6,7 +6,7 @@ FROM python:3.11-slim AS base
 
 # Install system dependencies + Node.js 20
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    git curl build-essential libffi-dev libssl-dev \
+    git curl build-essential libffi-dev libssl-dev procps \
     && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
