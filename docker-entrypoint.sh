@@ -2,6 +2,17 @@
 # Entrypoint for Coolify: run gateway and tail logs to stdout
 set -e
 
+# Decode Google OAuth client secret if provided
+if [ -n "$GOOGLE_CLIENT_SECRET_B64" ]; then
+    echo "$GOOGLE_CLIENT_SECRET_B64" | base64 -d > /root/.hermes/google_client_secret.json
+    echo "Google client secret decoded to /root/.hermes/google_client_secret.json"
+    # Run setup if not already configured
+    if [ ! -f /root/.hermes/google_token.json ]; then
+        python /app/skills/productivity/google-workspace/scripts/setup.py \
+            --client-secret /root/.hermes/google_client_secret.json 2>/dev/null || true
+    fi
+fi
+
 # Start the gateway in background
 python -u -m gateway.run &
 GATEWAY_PID=$!
