@@ -34,8 +34,12 @@ RUN pip install --no-cache-dir -e ".[messaging,cron,pty,mcp,slack]" 2>/dev/null 
 # Create hermes home directory
 RUN mkdir -p /root/.hermes
 
-# Copy default config if not mounted
+# Copy custom Karugency config
 RUN cp cli-config.yaml.example /root/.hermes/config.yaml
+COPY hermes-config-karugency.yaml /root/.hermes/config.yaml
+
+# Copy SOUL.md (agent identity)
+COPY SOUL.md /root/.hermes/SOUL.md
 
 # Health check endpoint — the gateway doesn't expose HTTP by default,
 # so we check that the Python process is alive
