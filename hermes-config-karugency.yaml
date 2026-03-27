@@ -2,7 +2,7 @@
 # Surcharge appliquee par le Dockerfile
 
 model:
-  default: "moonshotai/kimi-k2"
+  default: "google/gemini-2.5-pro"
   provider: "openrouter"
   base_url: "https://openrouter.ai/api/v1"
 
@@ -33,7 +33,7 @@ session_reset:
 agent:
   max_turns: 60
   verbose: false
-  reasoning_effort: "medium"
+  reasoning_effort: "high"
   personalities:
     helpful: "You are a helpful, friendly AI assistant."
     concise: "You are a concise assistant. Keep responses brief and to the point."
