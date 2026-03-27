@@ -42,6 +42,12 @@ RUN cp cli-config.yaml.example /root/.hermes/config.yaml
 HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
     CMD pgrep -f "gateway.run" || exit 1
 
-# Default: run the gateway (messaging bridges)
-# Override with CMD to run other modes (e.g., "hermes acp")
-ENTRYPOINT ["python", "-m", "gateway.run"]
+# Ensure Python logs go to stdout/stderr for Coolify log capture
+ENV PYTHONUNBUFFERED=1
+
+# Copy entrypoint script
+COPY docker-entrypoint.sh /app/docker-entrypoint.sh
+RUN chmod +x /app/docker-entrypoint.sh
+
+# Default: run the gateway with log tailing for Coolify
+ENTRYPOINT ["/app/docker-entrypoint.sh"]
